@@ -81,6 +81,7 @@
 .special-instructions h3 {
   font-size: 16px;
   font-weight: 600;
+  margin-top:30px;
   margin-bottom: 8px;
   color: #111;
 }
@@ -97,20 +98,25 @@
     grid-column: span 1;
   }
 }
-.btnDiv{
-  display:flex;
-  justify-content: space-evenly;
-  margin-bottom:30px;
+.btnDiv {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 30px;
 }
-.button{
-  padding:8px 19px 8px 19px;
-  background-color: #FFFFFF;
-  border-radius: 15px;
-  color: #000;
-  border: 2px solid #000000;
-  font-size: 16px;
+
+.button {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: white;
 }
-.button:hover{
-  background-color: #000000;
-  color:#FFFFFF;
+
+.active {
+  background: black;
+  color: white;
+}
+
+.selectedVariant {
+  font-size: 14px;
+  margin-bottom: 30px;
 }

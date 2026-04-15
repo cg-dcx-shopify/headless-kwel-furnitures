@@ -11,7 +11,7 @@ images: any[];
 variants: any[];
 }) {
 const [mainImage, setMainImage] = useState(
-variants?.[0]?.node?.image?.url || images?.[0]?.node?.url
+images?.[0]?.node?.url || variants?.[0]?.node?.image?.url
 );
 
 return (

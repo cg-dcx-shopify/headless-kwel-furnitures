@@ -16,6 +16,11 @@ query GetCart($cartId: ID!) {
           }
           merchandise {
             ... on ProductVariant {
+              title
+              selectedOptions {
+                name
+                value
+              }
               product {
                 title
               }
@@ -88,47 +93,36 @@ export default async function CartPage({ searchParams }: Props) {
         Your Cart ({cart.totalQuantity})
       </h1>
 
-      <ul className="space-y-4">
-        {cart.lines.edges.map(({ node }: any) => (
-          <li
-            key={node.id}
-            className="flex justify-between border-b pb-2"
-          >
-            {/* LEFT SIDE */}
-            <div>
-              <span>{node.merchandise.product.title}</span>
+    <ul className="space-y-4">
+  {cart.lines.edges.map(({ node }: any) => (
+    <li
+      key={node.id}
+      className="flex justify-between border-b pb-2"
+    >
+      <div>
+        <strong>{node.merchandise.product.title}</strong>
 
-              {/* ✅ SHOW SPECIAL INSTRUCTIONS */}
-              {node.attributes?.length > 0 && (
-                <div>
-                  {node.attributes.map((attr: any) => (
-                    <p
-                      key={attr.key}
-                      style={{
-                        fontSize: "12px",
-                        color: "gray",
-                        marginTop: "4px",
-                      }}
-                    >
-                      {attr.key}: {attr.value}
-                    </p>
-                  ))}
-                </div>
-              )}
-            </div>
+        <p className="text-sm text-gray-600">
+          {node.merchandise.title}
+        </p>
 
-            {/* RIGHT SIDE */}
-            <span>Qty: {node.quantity}</span>
-          </li>
+        {node.merchandise.selectedOptions.map((opt: any) => (
+          <p key={opt.name} className="text-xs text-gray-500">
+            {opt.name}: {opt.value}
+          </p>
         ))}
-      </ul>
 
-      <a
-        href={cart.checkoutUrl}
-        className="inline-block bg-black text-white px-6 py-3 rounded-md"
-      >
-        Checkout
-      </a>
+        {node.attributes?.map((attr: any) => (
+          <p key={attr.key} className="text-xs text-gray-500">
+            {attr.key}: {attr.value}
+          </p>
+        ))}
+      </div>
+
+      <span>Qty: {node.quantity}</span>
+    </li>
+  ))}
+    </ul>
     </main>
   );
 }
