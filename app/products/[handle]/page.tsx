@@ -2,8 +2,8 @@ import { shopifyFetch } from "@/lib/shopify/shopify";
 import { GET_PRODUCT_BY_HANDLE } from "@/lib/shopify/queries";
 import { notFound } from "next/navigation";
 import styles from "./product-page.module.css";
-import ProductMainVar from "@/app/components/ProductMainVar";
-import ProductClient from "@/app/components/ProductClient";
+import ProductMainVar from "@/app/components/products/ProductMainVar";
+import ProductClient from "@/app/components/products/ProductClient";
 
 type Props = {
   params: Promise<{ handle: string }>;

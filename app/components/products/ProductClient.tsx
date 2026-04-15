@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import VariantsBtn from "@/app/components/VariantsBtn";
-import QuantityBtn from "@/app/components/QuantityBtn";
-import SpecialInstruction from "@/app/components/SpecialInstructions";
+import VariantsBtn from "@/app/components/products/VariantsBtn";
+import QuantityBtn from "@/app/components/products/QuantityBtn";
+import SpecialInstruction from "@/app/components/products/SpecialInstructions";
 import AddToCartButton from "@/app/components/cart/AddToCartButton";
 import styles from "@/app/products/[handle]/product-page.module.css";
 

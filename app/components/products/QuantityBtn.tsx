@@ -1,5 +1,5 @@
 "use client";
-import './main.css';
+import '@/app/components/main.css';
 
 export default function QuantityBtn({ quantity, setQuantity }: any) {
 

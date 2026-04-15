@@ -35,7 +35,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
         {price && (
           <p className="text-gray-600">
-            ₹{Number(price).toLocaleString()}
+            ${Number(price).toLocaleString()}
           </p>
         )}
       </div>
