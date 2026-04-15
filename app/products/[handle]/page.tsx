@@ -1,12 +1,12 @@
 import { shopifyFetch } from "@/lib/shopify/shopify";
 import { GET_PRODUCT_BY_HANDLE } from "@/lib/shopify/queries";
 import { notFound } from "next/navigation";
-import AddToCartButton from "@/app/components/cart/AddToCartButton";
+import styles from "./product-page.module.css";
+import ProductMainVar from "@/app/components/ProductMainVar";
+import ProductClient from "@/app/components/ProductClient";
 
 type Props = {
-  params: Promise<{
-    handle: string;
-  }>;
+  params: Promise<{ handle: string }>;
 };
 
 export default async function ProductPage({ params }: Props) {
@@ -18,40 +18,33 @@ export default async function ProductPage({ params }: Props) {
   });
 
   const product = result?.data?.productByHandle;
-
   if (!product) notFound();
 
-  const image = product.images?.edges?.[0]?.node;
+  const images = product.images.edges ?? [];
+  const variants = product.variants.edges.map((e: any) => e.node);
 
-  const variantId =
-    product.variants?.edges?.[0]?.node?.id;
-
-  if (!variantId) {
+  if (!variants.length) {
     throw new Error("Product has no variants");
   }
 
   return (
-    <main className="max-w-4xl mx-auto p-8 space-y-6">
-      {image && (
-        <img
-          src={image.url}
-          alt={image.altText ?? product.title}
-          className="max-w-md"
-        />
-      )}
+    <main className={styles.page}>
+      <div className={styles.wrapper}>
+        <ProductMainVar images={images} variants={variants} />
 
-      <h1 className="text-3xl font-bold">
-        {product.title}
-      </h1>
-      <p>{product.description}
-      </p>
+        <div className={styles.content}>
+          <h1 className={styles.title}>{product.title}</h1>
+          <p className={styles.description}>{product.description}</p>
 
-      <p className="text-xl">
-        {product.priceRange.minVariantPrice.amount}{" "}
-        {product.priceRange.minVariantPrice.currencyCode}
-      </p>
+          <p className={styles.price}>
+            {product.priceRange.minVariantPrice.amount}{" "}
+            {product.priceRange.minVariantPrice.currencyCode}
+          </p>
 
-      <AddToCartButton variantId={variantId} />
+         
+          <ProductClient variants={variants} />
+        </div>
+      </div>
     </main>
   );
 }

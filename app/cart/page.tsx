@@ -10,8 +10,17 @@ query GetCart($cartId: ID!) {
         node {
           id
           quantity
+          attributes {
+            key
+            value
+          }
           merchandise {
             ... on ProductVariant {
+              title
+              selectedOptions {
+                name
+                value
+              }
               product {
                 title
               }
@@ -31,9 +40,10 @@ type Props = {
 };
 
 export default async function CartPage({ searchParams }: Props) {
-  // ✅ MUST unwrap
+  // ✅ unwrap params
   const { cartId: rawCartId } = await searchParams;
 
+  // ❌ no cart id
   if (!rawCartId) {
     return (
       <main className="p-8 max-w-4xl mx-auto">
@@ -42,16 +52,33 @@ export default async function CartPage({ searchParams }: Props) {
     );
   }
 
-  // ✅ Decode Shopify cart GID
+  // ✅ decode Shopify cart id
   const cartId = decodeURIComponent(rawCartId);
 
-  const result = await shopifyFetch<any>({
-    query: GET_CART,
-    variables: { cartId },
-  });
+  let result;
 
-  const cart = result.data.cart;
+  try {
+    result = await shopifyFetch<any>({
+      query: GET_CART,
+      variables: { cartId },
+    });
+  } catch (error) {
+    console.error("Fetch cart error:", error);
 
+    return (
+      <main className="p-8 max-w-4xl mx-auto">
+        <h1 className="text-2xl font-bold">Error loading cart</h1>
+      </main>
+    );
+  }
+
+  // 🔍 debug (optional)
+  console.log("SHOPIFY RESPONSE:", JSON.stringify(result, null, 2));
+
+  // ✅ SAFE ACCESS (prevents crash)
+  const cart = result?.data?.cart;
+
+  // ❌ invalid / expired cart
   if (!cart) {
     return (
       <main className="p-8 max-w-4xl mx-auto">
@@ -66,24 +93,36 @@ export default async function CartPage({ searchParams }: Props) {
         Your Cart ({cart.totalQuantity})
       </h1>
 
-      <ul className="space-y-4">
-        {cart.lines.edges.map(({ node }: any) => (
-          <li
-            key={node.id}
-            className="flex justify-between border-b pb-2"
-          >
-            <span>{node.merchandise.product.title}</span>
-            <span>Qty: {node.quantity}</span>
-          </li>
-        ))}
-      </ul>
+    <ul className="space-y-4">
+  {cart.lines.edges.map(({ node }: any) => (
+    <li
+      key={node.id}
+      className="flex justify-between border-b pb-2"
+    >
+      <div>
+        <strong>{node.merchandise.product.title}</strong>
 
-      <a
-        href={cart.checkoutUrl}
-        className="inline-block bg-black text-white px-6 py-3 rounded-md"
-      >
-        Checkout
-      </a>
+        <p className="text-sm text-gray-600">
+          {node.merchandise.title}
+        </p>
+
+        {node.merchandise.selectedOptions.map((opt: any) => (
+          <p key={opt.name} className="text-xs text-gray-500">
+            {opt.name}: {opt.value}
+          </p>
+        ))}
+
+        {node.attributes?.map((attr: any) => (
+          <p key={attr.key} className="text-xs text-gray-500">
+            {attr.key}: {attr.value}
+          </p>
+        ))}
+      </div>
+
+      <span>Qty: {node.quantity}</span>
+    </li>
+  ))}
+    </ul>
     </main>
   );
 }
