@@ -5,6 +5,8 @@ import CollectionCard from "@/app/components/collections/CollectionCard";
 import Section from "@/app/components/Section";
 import React from "react";
 import Slider from "@/app/components/Slider";
+import Announcementbar from "./components/HomePage/Announcementbar";
+import Newsbar from "./components/HomePage/Newsbar";
 
 ``
 
@@ -43,7 +45,9 @@ export default async function Home() {
 
   return (
     <>
+    <Announcementbar />
     <Slider />
+    <Newsbar />
     <main className="max-w-7xl mx-auto px-6 py-12 space-y-20">
       <Section title="Top Products">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">

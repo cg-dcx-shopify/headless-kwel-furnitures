@@ -30,6 +30,12 @@ export default function Navbar() {
           >
             Products
           </Link>
+          <Link
+            href="/lookbook"
+            className="hover:text-gray-600"
+          >
+            Lookbook
+          </Link>
         </div>
       </div>
     </nav>
