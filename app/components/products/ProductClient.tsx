@@ -6,15 +6,21 @@ import QuantityBtn from "@/app/components/products/QuantityBtn";
 import SpecialInstruction from "@/app/components/products/SpecialInstructions";
 import AddToCartButton from "@/app/components/cart/AddToCartButton";
 import styles from "@/app/products/[handle]/product-page.module.css";
+import PriceBtn from "./PriceBtn";
 
 export default function ProductClient({ variants }: { variants: any[] }) {
   const [selectedVariant, setSelectedVariant] = useState(variants[0]);
   const [quantity, setQuantity] = useState(1);
   const [note, setNote] = useState("");
+ 
 
   return (
     <>
-     
+    
+<h3 className={styles.price}>
+  {selectedVariant.price.amount} {selectedVariant.price.currencyCode}
+</h3>
+
       <VariantsBtn
         variants={variants}
         selectedVariant={selectedVariant}

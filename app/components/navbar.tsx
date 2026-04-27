@@ -36,6 +36,12 @@ export default function Navbar() {
           >
             Lookbook
           </Link>
+          <Link
+            href="/signup"
+            className="hover:text-gray-600"
+          >
+            Login/SignUp
+          </Link>
         </div>
       </div>
     </nav>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import './main.css';
+import Link from "next/link"; 
 
 const slides = [
   { id: 1, image: "/Slider/s1.jpg", para: "Discover the perfect blend of style and comfort.", title: "Welcome To My Store" },
@@ -34,9 +35,15 @@ export default function Slider() {
       <p className="slide-paragraph">
         {slides[current].para}
       </p>
-      <button className="shop-now">
-        Shop Now
-      </button>
+      import Link from "next/link";
+
+<Link
+  href="/collections"
+  className="shop-now"
+>
+  Shop Now
+</Link>
+
     </div>
   );
 }

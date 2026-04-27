@@ -65,6 +65,7 @@ export default async function Home() {
         </div>
       </Section>
     </main>
+
     </>
   );
 }

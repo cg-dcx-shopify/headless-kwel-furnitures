@@ -36,12 +36,6 @@ export default async function ProductPage({ params }: Props) {
           <h1 className={styles.title}>{product.title}</h1>
           <p className={styles.description}>{product.description}</p>
 
-          <p className={styles.price}>
-            {product.priceRange.minVariantPrice.amount}{" "}
-            {product.priceRange.minVariantPrice.currencyCode}
-          </p>
-
-         
           <ProductClient variants={variants} />
         </div>
       </div>
