@@ -31,6 +31,7 @@ export default function AddToCartButton({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          action: "add", // ✅ CRITICAL
           cartId,
           variantId,
           quantity,
@@ -44,7 +45,7 @@ export default function AddToCartButton({
       setCartId(data.cartId);
       router.push(`/cart?cartId=${encodeURIComponent(data.cartId)}`);
     } catch (err) {
-      console.error("Add to cart failed", err);
+      console.error("Add to cart failed:", err);
     } finally {
       setLoading(false);
     }

@@ -1,40 +1,84 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createCart, addToCart } from "@/lib/shopify/cart";
+import { shopifyFetch } from "@/lib/shopify/shopify";
+import {
+  ADD_TO_CART,
+  UPDATE_CART_LINES,
+  REMOVE_CART_LINES,
+  createCart,
+} from "@/lib/shopify/cart";
 
 export async function POST(req: NextRequest) {
   try {
-    const { cartId, variantId, quantity, note } = await req.json();
+    const body = await req.json();
 
-    if (!variantId) {
-      return NextResponse.json(
-        { error: "Missing variantId" },
-        { status: 400 }
-      );
+    const {
+      action = "add", // ✅ default to add
+      cartId,
+      variantId,
+      quantity = 1,
+      note,
+      lineId,
+    } = body;
+
+    /* ---------- ADD TO CART ---------- */
+    if (action === "add") {
+      const finalCartId = cartId ?? (await createCart());
+
+      await shopifyFetch({
+        query: ADD_TO_CART,
+        variables: {
+          cartId: finalCartId,
+          lines: [
+            {
+              merchandiseId: variantId,
+              quantity,
+              attributes: note
+                ? [{ key: "Note", value: note }]
+                : [],
+            },
+          ],
+        },
+      });
+
+      return NextResponse.json({ cartId: finalCartId });
     }
 
-    let finalCartId = cartId;
+    /* ---------- UPDATE ---------- */
+    if (action === "update") {
+      await shopifyFetch({
+        query: UPDATE_CART_LINES,
+        variables: {
+          cartId,
+          lines: [{ id: lineId, quantity }],
+        },
+      });
 
-    // ✅ Create cart if not exists
-    if (!finalCartId) {
-      finalCartId = await createCart();
+      return NextResponse.json({ success: true });
     }
 
-    // ✅ Default quantity fallback
-    const qty = quantity && quantity > 0 ? quantity : 1;
+    /* ---------- REMOVE ---------- */
+    if (action === "remove") {
+      await shopifyFetch({
+        query: REMOVE_CART_LINES,
+        variables: {
+          cartId,
+          lineIds: [lineId],
+        },
+      });
 
-    // ✅ Add to cart with quantity + note
-    await addToCart(finalCartId, variantId, qty, note);
-
-    return NextResponse.json({
-      cartId: finalCartId,
-      success: true,
-    });
-  } catch (error) {
-    console.error("Cart API error:", error);
+      return NextResponse.json({ success: true });
+    }
 
     return NextResponse.json(
-      { error: "Failed to add to cart" },
+      { error: "Invalid cart action" },
+      { status: 400 }
+    );
+  } catch (error) {
+    console.error("Cart API error:", error);
+    return NextResponse.json(
+      { error: "Cart operation failed" },
       { status: 500 }
     );
   }
 }
+``

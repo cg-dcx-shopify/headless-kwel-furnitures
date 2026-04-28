@@ -410,3 +410,37 @@
     font-size: 1.5rem;
   }
 }
+
+
+/* =========================
+   REMOVE (TRASH) BUTTON
+========================= */
+.remove-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: #d11a2a; /* premium red */
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+/* Hover effect */
+.remove-btn:hover {
+  transform: scale(1.12);
+  opacity: 0.85;
+}
+
+/* Active (click) feedback */
+.remove-btn:active {
+  transform: scale(0.95);
+}
+
+/* Keyboard accessibility */
+.remove-btn:focus-visible {
+  outline: 2px solid #d11a2a;
+  outline-offset: 2px;
+  border-radius: 4px;
+}

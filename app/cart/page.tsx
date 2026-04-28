@@ -1,5 +1,6 @@
 import { shopifyFetch } from "@/lib/shopify/shopify";
-
+import RemoveButton from "@/app/components/cart/RemoveButton";
+import CartQuantity from "../components/cart/CartQuantity";
 const GET_CART = `
 query GetCart($cartId: ID!) {
   cart(id: $cartId) {
@@ -40,51 +41,23 @@ type Props = {
 };
 
 export default async function CartPage({ searchParams }: Props) {
-  // ✅ unwrap params
-  const { cartId: rawCartId } = await searchParams;
+  const { cartId: rawCartId } = await searchParams; // ✅ FIX
 
-  // ❌ no cart id
   if (!rawCartId) {
-    return (
-      <main className="p-8 max-w-4xl mx-auto">
-        <h1 className="text-2xl font-bold">Your cart is empty</h1>
-      </main>
-    );
+    return <h1 className="p-8">Your cart is empty</h1>;
   }
 
-  // ✅ decode Shopify cart id
   const cartId = decodeURIComponent(rawCartId);
 
-  let result;
+  const result = await shopifyFetch<any>({
+    query: GET_CART,
+    variables: { cartId },
+  });
 
-  try {
-    result = await shopifyFetch<any>({
-      query: GET_CART,
-      variables: { cartId },
-    });
-  } catch (error) {
-    console.error("Fetch cart error:", error);
-
-    return (
-      <main className="p-8 max-w-4xl mx-auto">
-        <h1 className="text-2xl font-bold">Error loading cart</h1>
-      </main>
-    );
-  }
-
-  // 🔍 debug (optional)
-  console.log("SHOPIFY RESPONSE:", JSON.stringify(result, null, 2));
-
-  // ✅ SAFE ACCESS (prevents crash)
   const cart = result?.data?.cart;
 
-  // ❌ invalid / expired cart
   if (!cart) {
-    return (
-      <main className="p-8 max-w-4xl mx-auto">
-        <h1 className="text-2xl font-bold">Your cart is empty</h1>
-      </main>
-    );
+    return <h1 className="p-8">Your cart is empty</h1>;
   }
 
   return (
@@ -93,36 +66,27 @@ export default async function CartPage({ searchParams }: Props) {
         Your Cart ({cart.totalQuantity})
       </h1>
 
-    <ul className="space-y-4">
-  {cart.lines.edges.map(({ node }: any) => (
-    <li
-      key={node.id}
-      className="flex justify-between border-b pb-2"
-    >
-      <div>
-        <strong>{node.merchandise.product.title}</strong>
+      <ul className="space-y-4">
+        {cart.lines.edges.map(({ node }: any) => (
+          <li key={node.id} className="flex justify-between border-b pb-2">
+  <div>
+    <strong>{node.merchandise.product.title}</strong>
+    <p className="text-sm text-gray-600">
+      {node.merchandise.title}
+    </p>
+  </div>
 
-        <p className="text-sm text-gray-600">
-          {node.merchandise.title}
-        </p>
-
-        {node.merchandise.selectedOptions.map((opt: any) => (
-          <p key={opt.name} className="text-xs text-gray-500">
-            {opt.name}: {opt.value}
-          </p>
+  <div className="flex flex-col items-end gap-3">
+    <CartQuantity
+      cartId={cartId}
+      lineId={node.id}
+      initialQuantity={node.quantity}
+    />
+    <RemoveButton cartId={cartId} lineId={node.id} />
+  </div>
+</li>
         ))}
-
-        {node.attributes?.map((attr: any) => (
-          <p key={attr.key} className="text-xs text-gray-500">
-            {attr.key}: {attr.value}
-          </p>
-        ))}
-      </div>
-
-      <span>Qty: {node.quantity}</span>
-    </li>
-  ))}
-    </ul>
+      </ul>
     </main>
   );
 }
