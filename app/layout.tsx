@@ -4,6 +4,9 @@ import "./components/main.css";
 import Navbar from "./components/navbar";
 import Footer from "./components/Footer/Footer";
 
+import { CartDrawerProvider } from "@/app/context/CartDrawerContext";
+import CartDrawer from "@/app/components/cart/cartDrawer";
+
 export default function RootLayout({
   children,
 }: {
@@ -12,11 +15,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Navbar />
-        {children}
-        <Footer />
+        <CartDrawerProvider>
+
+          <Navbar />
+
+          {children}
+
+          <Footer />
+
+          <CartDrawer />
+
+        </CartDrawerProvider>
       </body>
     </html>
   );
 }
-``

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { getCartId, setCartId } from "@/lib/shopify/cartClient";
-
+import { useCartDrawer } from "@/app/context/CartDrawerContext";    
 interface AddToCartButtonProps {
   variantId: string;
   quantity: number;
@@ -19,7 +19,7 @@ export default function AddToCartButton({
 }: AddToCartButtonProps) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-
+const { openDrawer } = useCartDrawer();
   async function handleAddToCart() {
     if (loading) return;
     setLoading(true);
@@ -31,7 +31,7 @@ export default function AddToCartButton({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          action: "add", // ✅ CRITICAL
+          action: "add", 
           cartId,
           variantId,
           quantity,
@@ -43,7 +43,7 @@ export default function AddToCartButton({
       if (!res.ok) throw new Error(data.error);
 
       setCartId(data.cartId);
-      router.push(`/cart?cartId=${encodeURIComponent(data.cartId)}`);
+      openDrawer();
     } catch (err) {
       console.error("Add to cart failed:", err);
     } finally {

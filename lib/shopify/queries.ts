@@ -119,3 +119,52 @@ export const GET_COLLECTION_BY_HANDLE = `
     }
   }
 `;
+
+export const GET_CART = `
+query GetCart($cartId: ID!) {
+  cart(id: $cartId) {
+    id
+    totalQuantity
+    checkoutUrl
+
+    cost {
+      subtotalAmount {
+        amount
+      }
+
+      totalAmount {
+        amount
+      }
+    }
+
+    lines(first: 20) {
+      edges {
+        node {
+          id
+          quantity
+
+          cost {
+            totalAmount {
+              amount
+            }
+          }
+
+          merchandise {
+            ... on ProductVariant {
+              title
+
+              product {
+                title
+
+                featuredImage {
+                  url
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`;
