@@ -485,58 +485,126 @@
   margin-bottom: 12px;
 }
 
-s
+
+
+
+
+
+
+
+
+
 
 .cart-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.45);
   z-index: 40;
 }
+
 
 .cart-drawer {
   position: fixed;
   top: 0;
-  right: 0;
-
-  width: 400px;
-  height: 100vh;
-
-  background: white;
-
+  right: -420px;
+  width: 100%;
+  max-width: 400px;
+  height: 100%;
+  background: #fff;
   z-index: 50;
 
-  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
-
-  transition: transform 0.3s ease;
-
-  transform: translateX(100%);
+  display: flex;
+  flex-direction: column;
+  transition: right 0.3s ease;
 }
 
 .cart-drawer.open {
-  transform: translateX(0);
+  right: 0;
 }
+
 
 .cart-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-
   padding: 16px;
-
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid #eee;
 }
+
 
 .cart-content {
-  padding: 16px;
-
+  flex: 1;
   overflow-y: auto;
-
-  height: calc(100vh - 140px);
+  padding: 16px;
 }
 
-.cart-footer {
-  border-top: 1px solid #e5e5e5;
 
+.drawer-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+
+.item-left {
+  display: flex;
+  gap: 12px;
+}
+
+.item-left img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+
+.item-right {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+
+.price {
+  font-weight: 600;
+}
+
+
+.cart-footer {
+  position: sticky;
+  bottom: 0;
+
+  background: #fff;
   padding: 16px;
+
+  border-top: 1px solid #eee;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* ✅ TOTAL ROW */
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+}
+
+/* ✅ BUTTON */
+.checkout-btn {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+
+  background: black;
+  color: white;
+  text-align: center;
+
+  padding: 14px;
+  border-radius: 8px;
+  text-decoration: none;
+
+  font-weight: 600;
+}
+.divider {
+  border: 1px solid #2c2c2c;
 }
