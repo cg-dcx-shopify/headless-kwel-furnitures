@@ -76,7 +76,7 @@ export default function CartDrawer() {
                   <div className="item-left">
                     <img
                       src={
-                        node?.merchandise?.featuredImage?.url ||
+                        node?.merchandise?.product?.featuredImage?.url ||
                         "/placeholder.png"
                       }
                       alt={node?.merchandise?.product?.title || "Product"}
@@ -92,7 +92,14 @@ export default function CartDrawer() {
                       <p className="price">
                         {node?.cost?.totalAmount?.currencyCode}{" "}
                         {node?.cost?.totalAmount?.amount}
+                        
                       </p>
+
+                      {node?.attributes?.map((attr: any) => (
+                          <span key={attr.key} className="item-attribute">
+                            {attr.key}: {attr.value}
+                          </span>
+                        ))}
                     </div>
                   </div>
 

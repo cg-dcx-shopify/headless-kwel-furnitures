@@ -74,7 +74,7 @@ export default async function CartPage({ searchParams }: Props) {
         Your Cart ({cart.totalQuantity})
       </h1>
 
-      {/* CART ITEMS */}
+    
       <ul className="space-y-4">
         {cart.lines.edges.map(({ node }: any) => (
           <li key={node.id} className="flex justify-between border-b pb-4">
@@ -104,7 +104,7 @@ export default async function CartPage({ searchParams }: Props) {
         ))}
       </ul>
 
-      {/* ✅ TOTAL SECTION */}
+     
       <div className="pt-17 space-y-3">
 
         <div className="flex justify-between text-lg">

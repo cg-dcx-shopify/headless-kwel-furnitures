@@ -143,6 +143,10 @@ query GetCart($cartId: ID!) {
           id
           quantity
 
+          attributes{
+            key
+            value
+          }
           cost {
             totalAmount {
               amount

@@ -541,7 +541,7 @@
 .drawer-item {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 30px;
 }
 
 
@@ -582,14 +582,14 @@
   box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
 }
 
-/* ✅ TOTAL ROW */
+
 .total-row {
   display: flex;
   justify-content: space-between;
   font-weight: 600;
 }
 
-/* ✅ BUTTON */
+
 .checkout-btn {
   display: block;
   width: 100%;
