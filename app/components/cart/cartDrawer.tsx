@@ -54,7 +54,7 @@ export default function CartDrawer() {
       >
        
         <div className="cart-header">
-          <strong>Shopping Cart</strong>
+          <strong>Shop Cart</strong>
           <button onClick={closeDrawer} className="close-btn">
             <MdCancel size={24} />
           </button>
