@@ -49,7 +49,7 @@ export default function RemoveButton({
       className="remove-btn"
       aria-label="Remove item"
     >
-      Delete
+       <MdDelete size={25} />
     </button>
   );
 }
