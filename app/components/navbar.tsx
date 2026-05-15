@@ -9,7 +9,7 @@ export default function Navbar() {
   const { openDrawer } = useCartDrawer();
 
   return (
-    <nav className="w-full border-b mb-6">
+    <nav className="w-full border-b mb-0">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
 
         {/* Logo */}
@@ -49,12 +49,11 @@ export default function Navbar() {
           </Link>
 
           <Link
-            href="/signup"
+            href="/login"
             className="hover:text-gray-600"
           >
-            Login/SignUp
+            Login
           </Link>
-
          
           <button
             onClick={openDrawer}
