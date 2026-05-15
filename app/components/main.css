@@ -98,7 +98,7 @@
   background-color: #ffffff;
   color: #040404;
   text-align: center;
-  padding: 0 0 20px 0;
+  padding: 20px 0 20px 0;
   overflow: hidden;
   position: relative;
 }
@@ -224,12 +224,16 @@
 
 
 .signup {
-  min-height: 100vh;
+   min-height: 110vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f7f7f7;
   padding: 1rem;
+  background-image: url('/Designer.png');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  background-repeat: no-repeat;
 }
 
 
@@ -319,12 +323,16 @@
 }
 
 .login {
-  min-height: 100vh;
+  min-height: 110vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f7f7f7;
   padding: 1rem;
+  background-image: url('/login-img.png');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  background-repeat: no-repeat;
 }
 
 .login-form {
@@ -333,10 +341,11 @@
   max-width: 380px;
   padding: 2rem;
   border-radius: 10px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 25px #4d4d4d;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  z-index: 20;
 }
 
 
@@ -346,6 +355,7 @@
   font-weight: 600;
   color: #111;
   margin-bottom: 0.5rem;
+  z-index: 20;
 }
 
 
@@ -412,9 +422,7 @@
 }
 
 
-/* =========================
-   REMOVE (TRASH) BUTTON
-========================= */
+
 .remove-btn {
   display: flex;
   align-items: center;

@@ -172,3 +172,23 @@ query GetCart($cartId: ID!) {
   }
 }
 `;
+
+export const CREATE_CUSTOMER = `
+mutation customerCreate(
+  $input: CustomerCreateInput!
+) {
+
+  customerCreate(input: $input) {
+
+    customer {
+      id
+      firstName
+      email
+    }
+
+    customerUserErrors {
+      message
+    }
+  }
+}
+`;
